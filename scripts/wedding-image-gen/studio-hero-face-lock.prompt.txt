@@ -1,0 +1,36 @@
+Create a photorealistic Korean studio pre-wedding portrait for a mobile wedding invitation.
+
+This is an identity-preserving image edit from the provided reference photos. The final image should look like the same real couple after a studio pre-wedding shoot, not like newly generated people.
+
+Reference priority:
+- Image 1 is the primary identity source for both people. Match these two faces most strongly.
+- Images 2 and 4 clarify the bride's eyes, cheeks, lips, face width, short black bob, airy bangs, and small cheek beauty mark.
+- Images 3 and 5 clarify the groom's eyes, broad natural face, soft jaw, cheeks, chin, hair part, pores, and natural skin texture.
+
+Face preservation rules:
+- Keep the exact natural face proportions, cheek fullness, jaw softness, chin length, eye shape, nose shape, mouth shape, and smile character from the references.
+- Keep natural asymmetry, pores, small marks, and real skin texture.
+- Do not beautify into a generic model face.
+- Do not slim, sharpen, lengthen, or V-shape either face.
+- Do not enlarge eyes or make the skin waxy.
+- The bride must not have a protruding, long, pointed, or angular chin.
+- The groom must not have a narrower jaw, longer face, or erased skin texture.
+
+Wedding styling:
+- Change clothing and environment only after preserving the faces.
+- Groom wears a classic black tuxedo and black bow tie.
+- Bride wears a simple elegant white wedding dress and holds a small white bouquet low.
+- Keep the bride's short black bob with airy bangs. Keep the groom's relaxed dark parted hair.
+- Clean Korean wedding studio, soft ivory background, subtle white floral arrangement, diffused studio lighting.
+
+Composition:
+- Vertical 1024x1536 portrait.
+- Waist-up couple, both faces fully visible, looking toward camera.
+- Natural gentle smiles. No exaggerated posing.
+- Leave clean lower-third space for invitation text overlay.
+
+Blend and realism:
+- Natural necks, ears, shoulders, collarbones, and jaw-to-neck transitions.
+- Match skin tone from face to neck and hands.
+- Lighting must be consistent across face, neck, hair, and clothes.
+- No pasted-face look, no mismatched skin tone, no distorted body, no text, no watermark.

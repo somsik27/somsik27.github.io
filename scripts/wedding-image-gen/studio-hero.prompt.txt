@@ -1,0 +1,42 @@
+Create a photorealistic Korean studio pre-wedding portrait for a mobile wedding invitation.
+
+This is an image edit using the provided reference photos. Preserve the real couple's identities as the top priority. Do not invent a generic bride and groom.
+
+Reference usage:
+- Image 1 is the primary couple identity reference. Preserve both real faces from this image most strongly.
+- The bride solo references clarify the bride's face shape, cheeks, eyes, lips, beauty mark, and short bob haircut.
+- The groom solo references clarify the groom's face shape, hair, skin texture, jaw, cheeks, and smile.
+
+Bride identity lock:
+- Preserve her real soft round face, naturally full cheeks, small rounded chin, dark rounded eyes, natural nose, soft lips, and cheek beauty mark when visible.
+- Preserve her real short black bob with airy bangs.
+- Do not make her chin long, pointed, protruding, V-shaped, angular, or model-like.
+- Do not slim her cheeks or make her face narrower.
+
+Groom identity lock:
+- Preserve his real broad natural face, soft jaw and cheeks, natural chin, gentle smiling eyes, dark parted hair with relaxed front strands, realistic pores, and skin texture.
+- Do not slim his jaw, sharpen his chin, lengthen his face, erase pores, or make him a generic groom model.
+
+Studio wedding styling:
+- Clean Korean wedding studio with soft ivory backdrop, subtle white floral arrangement, and diffused studio lighting.
+- Groom wears a classic black tuxedo with black bow tie.
+- Bride wears a simple elegant white wedding dress, minimal natural makeup, and holds a small white bouquet low.
+- Keep their real hair silhouettes.
+
+Composition:
+- Vertical portrait for a mobile invitation hero.
+- Waist-up couple portrait.
+- Both faces fully visible and looking toward the camera.
+- Natural gentle expressions.
+- Keep clean lower-third space for names and date overlay.
+
+Realism requirements:
+- Natural necks and shoulders.
+- Matching skin tone from face to neck and hands.
+- Realistic jaw-to-neck transitions.
+- No pasted-face look.
+- No waxy skin.
+- No over-retouching.
+- No distorted collarbones.
+- No text.
+- No watermark.

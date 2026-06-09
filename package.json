@@ -1,0 +1,28 @@
+{
+  "name": "somsik-wedding-invitation",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "image:studio:dry-run": "python3 scripts/wedding-image-gen/generate-studio-wedding.py --dry-run",
+    "image:studio": "python3 scripts/wedding-image-gen/generate-studio-wedding.py",
+    "image:studio:face-lock": "python3 scripts/wedding-image-gen/generate-studio-wedding.py --limit 5 --prompt scripts/wedding-image-gen/studio-hero-face-lock.prompt.txt --basename studio-hero-face-lock",
+    "image:studio:bridal": "python3 scripts/wedding-image-gen/generate-studio-wedding.py --limit 5 --prompt scripts/wedding-image-gen/studio-hero.prompt.txt --basename studio-hero-bridal",
+    "image:studio:gpt2": "python3 scripts/wedding-image-gen/generate-studio-wedding.py --model gpt-image-2 --limit 5 --prompt scripts/wedding-image-gen/studio-hero-face-lock.prompt.txt --basename studio-hero-gpt2",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "lucide-react": "^0.468.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.2",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.16"
+  }
+}

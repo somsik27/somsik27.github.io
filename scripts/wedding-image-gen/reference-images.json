@@ -1,0 +1,40 @@
+{
+  "notes": [
+    "The order matters. Put the clearest couple image first, then bride and groom identity closeups.",
+    "Use at most 16 images. More is not always better; clear face references work best."
+  ],
+  "images": [
+    {
+      "path": "/Users/siksik/My Drive/somsik/Screenshot 2026-06-01 at 11.21.07 PM.png",
+      "role": "primary couple identity reference, both faces close and clear"
+    },
+    {
+      "path": "/Users/siksik/My Drive/somsik/IMG_0813.JPG",
+      "role": "bride front-facing identity reference"
+    },
+    {
+      "path": "/Users/siksik/My Drive/somsik/Screenshot 2026-06-01 at 11.16.23 PM.png",
+      "role": "groom close identity reference"
+    },
+    {
+      "path": "/Users/siksik/My Drive/somsik/Screenshot 2026-06-01 at 11.11.55 PM.png",
+      "role": "bride candid smile and hair reference"
+    },
+    {
+      "path": "/Users/siksik/My Drive/somsik/Screenshot 2026-06-01 at 11.12.29 PM.png",
+      "role": "groom front-facing natural expression reference"
+    },
+    {
+      "path": "/Users/siksik/My Drive/somsik/Screenshot 2026-06-01 at 11.23.49 PM.png",
+      "role": "couple skin tone and casual expression reference"
+    },
+    {
+      "path": "/Users/siksik/My Drive/somsik/Screenshot 2026-06-01 at 11.22.29 PM.png",
+      "role": "bride smiling side angle and hairstyle reference"
+    },
+    {
+      "path": "/Users/siksik/My Drive/somsik/Screenshot 2026-06-01 at 11.13.08 PM.png",
+      "role": "groom full upper-body hair and face reference"
+    }
+  ]
+}
