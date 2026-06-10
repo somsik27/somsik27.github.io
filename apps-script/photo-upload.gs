@@ -2,13 +2,22 @@ var DEFAULT_ALLOWED_MIME_TYPES = 'image/jpeg,image/png,image/webp';
 var DEFAULT_MAX_FILES = 5;
 var DEFAULT_MAX_FILE_SIZE_MB = 8;
 var DEFAULT_MAX_MESSAGE_LENGTH = 500;
+var UPLOAD_HEADERS = [
+  'timestamp',
+  'guest_name',
+  'message',
+  'file_links',
+  'file_ids',
+  'file_names',
+  'file_count',
+];
+var GUESTBOOK_HEADERS = ['timestamp', 'guest_name', 'message', 'file_count'];
 
 function doPost(e) {
   try {
     var payload = parsePayload_(e);
     var props = PropertiesService.getScriptProperties();
     var sheetId = requireProperty_(props, 'SHEET_ID');
-    var expectedEventCode = requireProperty_(props, 'EVENT_CODE');
     var sheetName = props.getProperty('SHEET_NAME') || 'uploads';
     var guestbookSheetName = props.getProperty('GUESTBOOK_SHEET_NAME') || 'guestbook';
     var maxFiles = Number(props.getProperty('MAX_FILES') || DEFAULT_MAX_FILES);
@@ -25,10 +34,6 @@ function doPost(e) {
       .map(function (type) {
         return type.trim();
       });
-
-    if (String(payload.eventCode || '').trim() !== expectedEventCode) {
-      return json_({ ok: false, message: '이벤트 코드가 올바르지 않습니다.' });
-    }
 
     var action = String(payload.action || '').trim() || 'photoShare';
     var guestName = sanitizeText_(payload.guestName, 80);
@@ -73,6 +78,11 @@ function doPost(e) {
       fileLinks
         .map(function (file) {
           return file.url;
+        })
+        .join('\n'),
+      fileLinks
+        .map(function (file) {
+          return file.id;
         })
         .join('\n'),
       fileLinks
@@ -132,14 +142,9 @@ function getSheet_(sheetId, sheetName) {
   }
 
   if (sheet.getLastRow() === 0) {
-    sheet.appendRow([
-      'timestamp',
-      'guest_name',
-      'message',
-      'file_links',
-      'file_names',
-      'file_count',
-    ]);
+    sheet.appendRow(UPLOAD_HEADERS);
+  } else {
+    ensureUploadHeaders_(sheet);
   }
 
   return sheet;
@@ -165,10 +170,29 @@ function getGuestbookSheet_(sheetId, sheetName) {
   }
 
   if (sheet.getLastRow() === 0) {
-    sheet.appendRow(['timestamp', 'guest_name', 'message', 'file_count']);
+    sheet.appendRow(GUESTBOOK_HEADERS);
   }
 
   return sheet;
+}
+
+function ensureUploadHeaders_(sheet) {
+  var lastColumn = Math.max(sheet.getLastColumn(), 1);
+  var headers = sheet.getRange(1, 1, 1, lastColumn).getValues()[0];
+
+  if (headers.indexOf('file_ids') !== -1) {
+    return;
+  }
+
+  var fileLinksIndex = headers.indexOf('file_links') + 1;
+
+  if (fileLinksIndex > 0) {
+    sheet.insertColumnAfter(fileLinksIndex);
+    sheet.getRange(1, fileLinksIndex + 1).setValue('file_ids');
+    return;
+  }
+
+  sheet.getRange(1, lastColumn + 1).setValue('file_ids');
 }
 
 function saveFile_(folder, file, allowedMimeTypes, maxFileSizeMb) {
@@ -198,13 +222,16 @@ function saveFile_(folder, file, allowedMimeTypes, maxFileSizeMb) {
   var blob = Utilities.newBlob(bytes, mimeType, fileName);
   var driveFile = folder.createFile(blob);
 
-  try {
-    driveFile.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-  } catch (error) {
-    // 조직 정책상 링크 공유가 막혀도 Sheet에는 Drive 파일 URL을 남깁니다.
+  if (PropertiesService.getScriptProperties().getProperty('SHARE_UPLOADED_FILES') === 'true') {
+    try {
+      driveFile.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+    } catch (error) {
+      // 조직 정책상 링크 공유가 막혀도 Sheet에는 Drive 파일 URL을 남깁니다.
+    }
   }
 
   return {
+    id: driveFile.getId(),
     name: driveFile.getName(),
     url: driveFile.getUrl(),
   };

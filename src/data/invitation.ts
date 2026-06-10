@@ -20,8 +20,6 @@ export type UploadSettings = {
   maxFiles: number;
   maxFileSizeMb: number;
   allowedMimeTypes: string[];
-  eventCodeLabel: string;
-  eventCodePlaceholder: string;
   teaserText: string;
   submitLabel: string;
   successMessage: string;
@@ -142,12 +140,10 @@ export const invitation = {
   ] satisfies GalleryImage[],
   photoUpload: {
     enabled: true,
-    endpointUrl: '',
+    endpointUrl: 'https://script.google.com/macros/s/AKfycbxsz4h59I9XnbgW7IBGtY6JHDIa9NDD2GO8qAVsty8ZAOlLkVmXKmKQ0DzwUdZZys5o/exec',
     maxFiles: 5,
     maxFileSizeMb: 8,
     allowedMimeTypes: ['image/jpeg', 'image/png', 'image/webp'],
-    eventCodeLabel: '이벤트 코드',
-    eventCodePlaceholder: '안내받은 코드를 입력해 주세요',
     teaserText: '예식 후 방명록과 사진 공유 링크가 열릴 예정입니다.',
     submitLabel: '사진 공유하기',
     successMessage: '소중한 마음이 잘 전달되었습니다. 고맙습니다.',

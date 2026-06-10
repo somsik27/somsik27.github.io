@@ -99,7 +99,6 @@ function postUpload(
 export function PhotoUploadTeaser({ settings }: PhotoUploadTeaserProps) {
   const [guestName, setGuestName] = useState('');
   const [message, setMessage] = useState('');
-  const [eventCode, setEventCode] = useState('');
   const [files, setFiles] = useState<PreviewFile[]>([]);
   const [statusMessage, setStatusMessage] = useState(settings.teaserText);
   const [statusType, setStatusType] = useState<'idle' | 'success' | 'error'>(
@@ -188,7 +187,6 @@ export function PhotoUploadTeaser({ settings }: PhotoUploadTeaserProps) {
     setFiles([]);
     setGuestName('');
     setMessage('');
-    setEventCode('');
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -197,12 +195,6 @@ export function PhotoUploadTeaser({ settings }: PhotoUploadTeaserProps) {
     if (!settings.endpointUrl) {
       setStatusType('error');
       setStatusMessage('방명록과 사진 공유 링크를 준비하고 있습니다.');
-      return;
-    }
-
-    if (!eventCode.trim()) {
-      setStatusType('error');
-      setStatusMessage('이벤트 코드를 입력해 주세요.');
       return;
     }
 
@@ -232,7 +224,6 @@ export function PhotoUploadTeaser({ settings }: PhotoUploadTeaserProps) {
         settings.endpointUrl,
         {
           action: files.length ? 'photoShare' : 'guestbook',
-          eventCode: eventCode.trim(),
           guestName: guestName.trim(),
           message: message.trim(),
           files: encodedFiles,
@@ -287,17 +278,6 @@ export function PhotoUploadTeaser({ settings }: PhotoUploadTeaserProps) {
             placeholder="전하고 싶은 말을 남겨 주세요"
             rows={4}
             maxLength={500}
-          />
-        </label>
-        <label>
-          {settings.eventCodeLabel}
-          <input
-            type="text"
-            value={eventCode}
-            onChange={(event) => setEventCode(event.target.value)}
-            placeholder={settings.eventCodePlaceholder}
-            autoComplete="off"
-            required
           />
         </label>
         <label className="upload-panel__picker">

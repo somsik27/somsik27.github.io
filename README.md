@@ -27,7 +27,9 @@ npm run dev
 `photoUpload.enabled: true`이면 방명록과 사진 공유 폼이 표시됩니다. 실제 저장을 열려면:
 
 1. `apps-script/photo-upload.gs`를 Google Apps Script Web App으로 배포합니다.
-2. Apps Script properties에 `SHEET_ID`, `EVENT_CODE`를 설정합니다.
+2. Apps Script properties에 `SHEET_ID`를 설정합니다.
 3. 사진 공유까지 열려면 `DRIVE_FOLDER_ID`도 설정합니다.
 4. 필요하면 `SHEET_NAME`, `GUESTBOOK_SHEET_NAME`, `MAX_FILES`, `MAX_FILE_SIZE_MB`, `MAX_MESSAGE_LENGTH`, `ALLOWED_MIME_TYPES`도 설정합니다.
 5. 배포된 Web App URL을 `photoUpload.endpointUrl`에 넣고 `enabled`를 `true`로 바꿉니다.
+
+업로드된 사진은 기본적으로 Drive 폴더 안에 비공개로 저장됩니다. 직접 고른 사진만 `public/images/gallery`에 추가하고 `src/data/invitation.ts`의 `gallery` 배열에 넣어 공유하세요. Apps Script property `SHARE_UPLOADED_FILES`를 `true`로 설정하면 업로드 파일을 링크 공유로 만들 수 있지만, 기본값은 공유하지 않는 상태입니다.
