@@ -9,13 +9,23 @@ type HeroProps = {
 export function Hero({ couple, event, hero }: HeroProps) {
   return (
     <section className="hero" aria-label="청첩장 대표 정보">
-      <img
-        className="hero__image"
-        src={hero.imageSrc}
-        alt={hero.imageAlt}
-        loading="lazy"
-        decoding="async"
-      />
+      <div className="hero__media">
+        <img
+          className="hero__backdrop-image"
+          src={hero.imageSrc}
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          decoding="async"
+        />
+        <img
+          className="hero__image"
+          src={hero.imageSrc}
+          alt={hero.imageAlt}
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
       <div className="hero__shade" aria-hidden="true" />
       <div className="hero__content">
         <p className="hero__eyebrow">Wedding Invitation</p>

@@ -56,8 +56,8 @@ export const invitation = {
     mapLinks: [
       {
         label: '네이버 길찾기',
-        url: 'https://naver.me/F884QRmt',
-        ariaLabel: '네이버지도에서 더 컨벤션 송파문정 길찾기 열기',
+        url: 'nmap://route/public?dlat=37.48400527244593&dlng=127.1227891177527&dname=%EB%8D%94%20%EC%BB%A8%EB%B2%A4%EC%85%98%20%EC%86%A1%ED%8C%8C%EB%AC%B8%EC%A0%95&appname=somsik27.github.io',
+        ariaLabel: '네이버지도 앱에서 더 컨벤션 송파문정 길찾기 열기',
       },
       {
         label: '카카오 길찾기',
@@ -82,7 +82,7 @@ export const invitation = {
     publicTransit: {
       title: '대중교통 안내',
       lines: [
-        '지하철 8호선 문정역 3번 출구에서 도보 약 5분',
+        '지하철 8호선 문정역 3번 출구',
         '내비게이션에서 더 컨벤션 송파문정을 검색해 주세요.',
       ],
     },
