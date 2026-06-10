@@ -499,7 +499,7 @@ img {
 
 .photo-upload__teaser {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 12px;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -508,7 +508,27 @@ img {
   color: var(--sage-dark);
 }
 
+.photo-upload__teaser strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--sage-dark);
+}
+
 .photo-upload__teaser p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.share-intro {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 16px;
+  color: var(--sage-dark);
+}
+
+.share-intro p {
   margin: 0;
   color: var(--muted);
   line-height: 1.6;
@@ -521,6 +541,16 @@ img {
   border-radius: 8px;
   padding: 18px;
   background: var(--surface);
+}
+
+.upload-panel__notice {
+  margin: 0;
+  border-radius: 8px;
+  padding: 12px 13px;
+  background: #fff7e9;
+  color: var(--gold);
+  font-weight: 700;
+  line-height: 1.5;
 }
 
 .upload-panel label {

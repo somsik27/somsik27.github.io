@@ -22,11 +22,12 @@ npm run dev
 
 `.github/workflows/deploy-pages.yml`이 `main` 또는 `master` 브랜치 push 시 `dist`를 GitHub Pages로 배포합니다. 저장소의 Pages 설정에서 배포 소스를 GitHub Actions로 선택해 주세요.
 
-## 사진 업로드 v2
+## 방명록과 사진 공유
 
-현재는 `photoUpload.enabled: false`라 안내 문구만 표시됩니다. v2에서 업로드를 열려면:
+`photoUpload.enabled: true`이면 방명록과 사진 공유 폼이 표시됩니다. 실제 저장을 열려면:
 
 1. `apps-script/photo-upload.gs`를 Google Apps Script Web App으로 배포합니다.
-2. Apps Script properties에 `DRIVE_FOLDER_ID`, `SHEET_ID`, `EVENT_CODE`를 설정합니다.
-3. 필요하면 `SHEET_NAME`, `MAX_FILES`, `MAX_FILE_SIZE_MB`, `ALLOWED_MIME_TYPES`도 설정합니다.
-4. 배포된 Web App URL을 `photoUpload.endpointUrl`에 넣고 `enabled`를 `true`로 바꿉니다.
+2. Apps Script properties에 `SHEET_ID`, `EVENT_CODE`를 설정합니다.
+3. 사진 공유까지 열려면 `DRIVE_FOLDER_ID`도 설정합니다.
+4. 필요하면 `SHEET_NAME`, `GUESTBOOK_SHEET_NAME`, `MAX_FILES`, `MAX_FILE_SIZE_MB`, `MAX_MESSAGE_LENGTH`, `ALLOWED_MIME_TYPES`도 설정합니다.
+5. 배포된 Web App URL을 `photoUpload.endpointUrl`에 넣고 `enabled`를 `true`로 바꿉니다.

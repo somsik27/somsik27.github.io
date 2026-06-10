@@ -8,7 +8,27 @@ import { When } from './components/When';
 import { Where } from './components/Where';
 import { invitation } from './data/invitation';
 
+function isShareRoute() {
+  const searchParams = new URLSearchParams(window.location.search);
+  const redirectPath = searchParams.get('redirect') || '';
+
+  return window.location.pathname === '/share' || redirectPath.startsWith('/share');
+}
+
 function App() {
+  if (isShareRoute()) {
+    return (
+      <main className="site-shell">
+        <Hero
+          couple={invitation.couple}
+          event={invitation.event}
+          hero={invitation.hero}
+        />
+        <PhotoUploadTeaser settings={invitation.photoUpload} />
+      </main>
+    );
+  }
+
   return (
     <main className="site-shell">
       <Hero

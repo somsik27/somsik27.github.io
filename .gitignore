@@ -5,3 +5,4 @@ vite.config.d.ts
 vite.config.js
 .env
 output/
+.DS_Store

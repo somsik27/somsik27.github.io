@@ -3,6 +3,7 @@ import {
   AlertCircle,
   CheckCircle,
   Image as ImageIcon,
+  MessageCircleHeart,
   Trash2,
   UploadCloud,
 } from 'lucide-react';
@@ -119,13 +120,16 @@ export function PhotoUploadTeaser({ settings }: PhotoUploadTeaserProps) {
     };
   }, [files]);
 
-  if (!settings.enabled || !settings.endpointUrl) {
+  if (!settings.enabled) {
     return (
       <section className="section photo-upload">
-        <SectionHeader eyebrow="Photo" title="사진 공유" />
+        <SectionHeader eyebrow="Guestbook" title="방명록과 사진 공유" />
         <div className="photo-upload__teaser">
-          <UploadCloud size={24} aria-hidden="true" />
-          <p>{settings.teaserText}</p>
+          <MessageCircleHeart size={24} aria-hidden="true" />
+          <div>
+            <strong>예식 후 공유 링크가 열릴 예정입니다.</strong>
+            <p>{settings.teaserText}</p>
+          </div>
         </div>
       </section>
     );
@@ -190,22 +194,34 @@ export function PhotoUploadTeaser({ settings }: PhotoUploadTeaserProps) {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    if (!settings.endpointUrl) {
+      setStatusType('error');
+      setStatusMessage('방명록과 사진 공유 링크를 준비하고 있습니다.');
+      return;
+    }
+
     if (!eventCode.trim()) {
       setStatusType('error');
       setStatusMessage('이벤트 코드를 입력해 주세요.');
       return;
     }
 
-    if (!files.length) {
+    if (!guestName.trim()) {
       setStatusType('error');
-      setStatusMessage('공유할 사진을 선택해 주세요.');
+      setStatusMessage('이름을 입력해 주세요.');
+      return;
+    }
+
+    if (!message.trim() && !files.length) {
+      setStatusType('error');
+      setStatusMessage('메시지를 남기거나 공유할 사진을 선택해 주세요.');
       return;
     }
 
     setIsUploading(true);
     setProgress(5);
     setStatusType('idle');
-    setStatusMessage('사진을 준비하고 있습니다.');
+    setStatusMessage(files.length ? '사진을 준비하고 있습니다.' : '방명록을 남기고 있습니다.');
 
     try {
       const encodedFiles = await Promise.all(
@@ -215,6 +231,7 @@ export function PhotoUploadTeaser({ settings }: PhotoUploadTeaserProps) {
       await postUpload(
         settings.endpointUrl,
         {
+          action: files.length ? 'photoShare' : 'guestbook',
           eventCode: eventCode.trim(),
           guestName: guestName.trim(),
           message: message.trim(),
@@ -239,8 +256,19 @@ export function PhotoUploadTeaser({ settings }: PhotoUploadTeaserProps) {
 
   return (
     <section className="section photo-upload">
-      <SectionHeader eyebrow="Photo" title="사진 공유" />
+      <SectionHeader eyebrow="Guestbook" title="방명록과 사진 공유" />
+      <div className="share-intro">
+        <MessageCircleHeart size={22} aria-hidden="true" />
+        <p>
+          축하 메시지를 남겨 주세요. 예식 사진이 있다면 함께 공유할 수 있습니다.
+        </p>
+      </div>
       <form className="upload-panel" onSubmit={handleSubmit}>
+        {!settings.endpointUrl ? (
+          <p className="upload-panel__notice">
+            방명록과 사진 공유 링크를 준비하고 있습니다.
+          </p>
+        ) : null}
         <label>
           이름
           <input
@@ -258,6 +286,7 @@ export function PhotoUploadTeaser({ settings }: PhotoUploadTeaserProps) {
             onChange={(event) => setMessage(event.target.value)}
             placeholder="전하고 싶은 말을 남겨 주세요"
             rows={4}
+            maxLength={500}
           />
         </label>
         <label>
@@ -276,7 +305,7 @@ export function PhotoUploadTeaser({ settings }: PhotoUploadTeaserProps) {
           <span>
             사진 선택
             <small>
-              최대 {settings.maxFiles}장, 장당 {settings.maxFileSizeMb}MB
+              선택 사항 · 최대 {settings.maxFiles}장, 장당 {settings.maxFileSizeMb}MB
             </small>
           </span>
           <input
@@ -330,9 +359,23 @@ export function PhotoUploadTeaser({ settings }: PhotoUploadTeaserProps) {
           <span>{statusMessage}</span>
         </p>
 
-        <button className="upload-panel__submit" type="submit" disabled={isUploading}>
-          <UploadCloud size={18} aria-hidden="true" />
-          <span>{isUploading ? '업로드 중' : settings.submitLabel}</span>
+        <button
+          className="upload-panel__submit"
+          type="submit"
+          disabled={isUploading || !settings.endpointUrl}
+        >
+          {files.length ? (
+            <UploadCloud size={18} aria-hidden="true" />
+          ) : (
+            <MessageCircleHeart size={18} aria-hidden="true" />
+          )}
+          <span>
+            {isUploading
+              ? '전송 중'
+              : files.length
+                ? settings.submitLabel
+                : '방명록 남기기'}
+          </span>
         </button>
       </form>
     </section>

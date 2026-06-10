@@ -1,18 +1,22 @@
 var DEFAULT_ALLOWED_MIME_TYPES = 'image/jpeg,image/png,image/webp';
 var DEFAULT_MAX_FILES = 5;
 var DEFAULT_MAX_FILE_SIZE_MB = 8;
+var DEFAULT_MAX_MESSAGE_LENGTH = 500;
 
 function doPost(e) {
   try {
     var payload = parsePayload_(e);
     var props = PropertiesService.getScriptProperties();
-    var folderId = requireProperty_(props, 'DRIVE_FOLDER_ID');
     var sheetId = requireProperty_(props, 'SHEET_ID');
     var expectedEventCode = requireProperty_(props, 'EVENT_CODE');
     var sheetName = props.getProperty('SHEET_NAME') || 'uploads';
+    var guestbookSheetName = props.getProperty('GUESTBOOK_SHEET_NAME') || 'guestbook';
     var maxFiles = Number(props.getProperty('MAX_FILES') || DEFAULT_MAX_FILES);
     var maxFileSizeMb = Number(
       props.getProperty('MAX_FILE_SIZE_MB') || DEFAULT_MAX_FILE_SIZE_MB,
+    );
+    var maxMessageLength = Number(
+      props.getProperty('MAX_MESSAGE_LENGTH') || DEFAULT_MAX_MESSAGE_LENGTH,
     );
     var allowedMimeTypes = (
       props.getProperty('ALLOWED_MIME_TYPES') || DEFAULT_ALLOWED_MIME_TYPES
@@ -26,27 +30,46 @@ function doPost(e) {
       return json_({ ok: false, message: '이벤트 코드가 올바르지 않습니다.' });
     }
 
-    if (!Array.isArray(payload.files) || !payload.files.length) {
-      return json_({ ok: false, message: '업로드할 사진이 없습니다.' });
+    var action = String(payload.action || '').trim() || 'photoShare';
+    var guestName = sanitizeText_(payload.guestName, 80);
+    var message = sanitizeText_(payload.message, maxMessageLength);
+    var files = Array.isArray(payload.files) ? payload.files : [];
+
+    if (!guestName) {
+      return json_({ ok: false, message: '이름을 입력해 주세요.' });
     }
 
-    if (payload.files.length > maxFiles) {
+    if (!message && !files.length) {
+      return json_({ ok: false, message: '메시지나 사진을 남겨 주세요.' });
+    }
+
+    if (files.length > maxFiles) {
       return json_({
         ok: false,
         message: '사진은 최대 ' + maxFiles + '장까지 업로드할 수 있습니다.',
       });
     }
 
+    if (action === 'guestbook' || !files.length) {
+      appendGuestbook_(sheetId, guestbookSheetName, guestName, message);
+
+      return json_({
+        ok: true,
+        message: '방명록이 잘 남겨졌습니다.',
+      });
+    }
+
+    var folderId = requireProperty_(props, 'DRIVE_FOLDER_ID');
     var folder = DriveApp.getFolderById(folderId);
     var sheet = getSheet_(sheetId, sheetName);
-    var fileLinks = payload.files.map(function (file) {
+    var fileLinks = files.map(function (file) {
       return saveFile_(folder, file, allowedMimeTypes, maxFileSizeMb);
     });
 
     sheet.appendRow([
       new Date(),
-      sanitizeText_(payload.guestName),
-      sanitizeText_(payload.message),
+      guestName,
+      message,
       fileLinks
         .map(function (file) {
           return file.url;
@@ -59,10 +82,11 @@ function doPost(e) {
         .join('\n'),
       fileLinks.length,
     ]);
+    appendGuestbook_(sheetId, guestbookSheetName, guestName, message, fileLinks.length);
 
     return json_({
       ok: true,
-      message: '업로드가 완료되었습니다.',
+      message: '방명록과 사진이 잘 전달되었습니다.',
       files: fileLinks,
     });
   } catch (error) {
@@ -74,7 +98,7 @@ function doPost(e) {
 }
 
 function doGet() {
-  return json_({ ok: true, message: 'Wedding photo upload endpoint is ready.' });
+  return json_({ ok: true, message: 'Wedding guestbook and photo endpoint is ready.' });
 }
 
 function parsePayload_(e) {
@@ -121,6 +145,32 @@ function getSheet_(sheetId, sheetName) {
   return sheet;
 }
 
+function appendGuestbook_(sheetId, sheetName, guestName, message, fileCount) {
+  var sheet = getGuestbookSheet_(sheetId, sheetName);
+
+  sheet.appendRow([
+    new Date(),
+    guestName,
+    message,
+    Number(fileCount || 0),
+  ]);
+}
+
+function getGuestbookSheet_(sheetId, sheetName) {
+  var spreadsheet = SpreadsheetApp.openById(sheetId);
+  var sheet = spreadsheet.getSheetByName(sheetName);
+
+  if (!sheet) {
+    sheet = spreadsheet.insertSheet(sheetName);
+  }
+
+  if (sheet.getLastRow() === 0) {
+    sheet.appendRow(['timestamp', 'guest_name', 'message', 'file_count']);
+  }
+
+  return sheet;
+}
+
 function saveFile_(folder, file, allowedMimeTypes, maxFileSizeMb) {
   if (!file || !file.base64) {
     throw new Error('사진 데이터가 누락되었습니다.');
@@ -160,8 +210,10 @@ function saveFile_(folder, file, allowedMimeTypes, maxFileSizeMb) {
   };
 }
 
-function sanitizeText_(value) {
-  return String(value || '').trim().slice(0, 1000);
+function sanitizeText_(value, maxLength) {
+  return String(value || '')
+    .trim()
+    .slice(0, maxLength || 1000);
 }
 
 function sanitizeFileName_(value) {
