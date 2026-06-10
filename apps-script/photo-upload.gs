@@ -112,6 +112,14 @@ function doGet() {
 }
 
 function parsePayload_(e) {
+  if (e && e.parameter && e.parameter.payload) {
+    try {
+      return JSON.parse(e.parameter.payload);
+    } catch (error) {
+      throw new Error('payload 값을 JSON으로 해석하지 못했습니다.');
+    }
+  }
+
   if (!e || !e.postData || !e.postData.contents) {
     throw new Error('요청 본문이 비어 있습니다.');
   }

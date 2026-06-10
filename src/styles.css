@@ -76,32 +76,21 @@ img {
 
 .hero__media {
   position: relative;
-  display: grid;
-  place-items: center;
   min-height: min(78vh, 720px);
   overflow: hidden;
   background: var(--sage-dark);
 }
 
 .hero__backdrop-image {
-  position: absolute;
-  inset: -18px;
-  width: calc(100% + 36px);
-  height: calc(100% + 36px);
-  max-width: none;
-  object-fit: cover;
-  filter: blur(16px) saturate(0.92);
-  transform: scale(1.04);
-  opacity: 0.72;
+  display: none;
 }
 
 .hero__image {
-  position: relative;
-  width: auto;
-  max-width: 100%;
-  height: auto;
-  max-height: min(78vh, 720px);
-  object-fit: contain;
+  width: 100%;
+  height: min(78vh, 720px);
+  min-height: min(78vh, 720px);
+  max-width: none;
+  object-fit: cover;
   object-position: center top;
 }
 

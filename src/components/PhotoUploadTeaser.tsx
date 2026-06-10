@@ -65,35 +65,28 @@ function postUpload(
   payload: unknown,
   onProgress: (progress: number) => void,
 ) {
-  return new Promise<void>((resolve, reject) => {
-    const request = new XMLHttpRequest();
+  const controller = new AbortController();
+  const timeoutId = window.setTimeout(() => controller.abort(), 45000);
 
-    request.open('POST', endpointUrl);
-    request.setRequestHeader('Content-Type', 'text/plain;charset=utf-8');
-    request.upload.onprogress = (event) => {
-      if (event.lengthComputable) {
-        onProgress(Math.round((event.loaded / event.total) * 100));
+  return fetch(endpointUrl, {
+    method: 'POST',
+    mode: 'no-cors',
+    body: JSON.stringify(payload),
+    signal: controller.signal,
+  })
+    .then(() => {
+      onProgress(90);
+    })
+    .catch((error) => {
+      if (error instanceof DOMException && error.name === 'AbortError') {
+        throw new Error('전송 시간이 초과되었습니다. 잠시 후 다시 시도해 주세요.');
       }
-    };
-    request.onload = () => {
-      try {
-        const response = request.responseText
-          ? JSON.parse(request.responseText)
-          : { ok: request.status >= 200 && request.status < 300 };
 
-        if (request.status >= 200 && request.status < 300 && response.ok) {
-          resolve();
-          return;
-        }
-
-        reject(new Error(response.message || '업로드에 실패했습니다.'));
-      } catch {
-        reject(new Error('업로드 응답을 확인하지 못했습니다.'));
-      }
-    };
-    request.onerror = () => reject(new Error('네트워크 연결을 확인해 주세요.'));
-    request.send(JSON.stringify(payload));
-  });
+      throw new Error('네트워크 연결을 확인해 주세요.');
+    })
+    .finally(() => {
+      window.clearTimeout(timeoutId);
+    });
 }
 
 export function PhotoUploadTeaser({ settings }: PhotoUploadTeaserProps) {
@@ -219,6 +212,7 @@ export function PhotoUploadTeaser({ settings }: PhotoUploadTeaserProps) {
       const encodedFiles = await Promise.all(
         files.map((item) => readFileAsBase64(item.file)),
       );
+      setProgress(35);
 
       await postUpload(
         settings.endpointUrl,
