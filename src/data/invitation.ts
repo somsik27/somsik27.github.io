@@ -140,7 +140,7 @@ export const invitation = {
   ] satisfies GalleryImage[],
   photoUpload: {
     enabled: true,
-    endpointUrl: 'https://script.google.com/macros/s/AKfycbxsz4h59I9XnbgW7IBGtY6JHDIa9NDD2GO8qAVsty8ZAOlLkVmXKmKQ0DzwUdZZys5o/exec',
+    endpointUrl: 'https://script.google.com/macros/s/AKfycbxmkIXWYMfuVWuUCmLj5OV2bxwah_L2VKSq9zBxk0xPRAql7kf3nidOrfSfOTTkYIIj/exec',
     maxFiles: 5,
     maxFileSizeMb: 8,
     allowedMimeTypes: ['image/jpeg', 'image/png', 'image/webp'],
