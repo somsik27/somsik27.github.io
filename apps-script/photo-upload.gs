@@ -11,7 +11,15 @@ var UPLOAD_HEADERS = [
   'file_names',
   'file_count',
 ];
-var GUESTBOOK_HEADERS = ['timestamp', 'guest_name', 'message', 'file_count'];
+var GUESTBOOK_HEADERS = [
+  'timestamp',
+  'guest_name',
+  'message',
+  'file_count',
+  'file_links',
+  'file_ids',
+  'file_names',
+];
 
 function doPost(e) {
   try {
@@ -64,8 +72,7 @@ function doPost(e) {
       });
     }
 
-    var folderId = requireProperty_(props, 'DRIVE_FOLDER_ID');
-    var folder = DriveApp.getFolderById(folderId);
+    var folder = getUploadFolder_(props);
     var sheet = getSheet_(sheetId, sheetName);
     var fileLinks = files.map(function (file) {
       return saveFile_(folder, file, allowedMimeTypes, maxFileSizeMb);
@@ -92,7 +99,7 @@ function doPost(e) {
         .join('\n'),
       fileLinks.length,
     ]);
-    appendGuestbook_(sheetId, guestbookSheetName, guestName, message, fileLinks.length);
+    appendGuestbook_(sheetId, guestbookSheetName, guestName, message, fileLinks);
 
     return json_({
       ok: true,
@@ -141,6 +148,35 @@ function requireProperty_(props, key) {
   return value;
 }
 
+function getUploadFolder_(props) {
+  var folderId = extractDriveId_(requireProperty_(props, 'DRIVE_FOLDER_ID'));
+
+  try {
+    return DriveApp.getFolderById(folderId);
+  } catch (error) {
+    throw new Error(
+      'DRIVE_FOLDER_ID 폴더를 열지 못했습니다. Google Drive 폴더 ID 또는 URL, 웹 앱 실행 계정의 폴더 접근 권한, Drive 권한 재승인을 확인해 주세요. 원본 오류: ' +
+        (error && error.message ? error.message : error),
+    );
+  }
+}
+
+function extractDriveId_(value) {
+  var text = String(value || '').trim();
+  var folderUrlMatch = text.match(/\/folders\/([a-zA-Z0-9_-]+)/);
+  var idParamMatch = text.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+
+  if (folderUrlMatch) {
+    return folderUrlMatch[1];
+  }
+
+  if (idParamMatch) {
+    return idParamMatch[1];
+  }
+
+  return text;
+}
+
 function getSheet_(sheetId, sheetName) {
   var spreadsheet = SpreadsheetApp.openById(sheetId);
   var sheet = spreadsheet.getSheetByName(sheetName);
@@ -152,20 +188,36 @@ function getSheet_(sheetId, sheetName) {
   if (sheet.getLastRow() === 0) {
     sheet.appendRow(UPLOAD_HEADERS);
   } else {
-    ensureUploadHeaders_(sheet);
+    ensureHeaders_(sheet, UPLOAD_HEADERS);
   }
 
   return sheet;
 }
 
-function appendGuestbook_(sheetId, sheetName, guestName, message, fileCount) {
+function appendGuestbook_(sheetId, sheetName, guestName, message, fileLinks) {
   var sheet = getGuestbookSheet_(sheetId, sheetName);
+  var files = Array.isArray(fileLinks) ? fileLinks : [];
 
   sheet.appendRow([
     new Date(),
     guestName,
     message,
-    Number(fileCount || 0),
+    files.length,
+    files
+      .map(function (file) {
+        return file.url;
+      })
+      .join('\n'),
+    files
+      .map(function (file) {
+        return file.id;
+      })
+      .join('\n'),
+    files
+      .map(function (file) {
+        return file.name;
+      })
+      .join('\n'),
   ]);
 }
 
@@ -179,28 +231,26 @@ function getGuestbookSheet_(sheetId, sheetName) {
 
   if (sheet.getLastRow() === 0) {
     sheet.appendRow(GUESTBOOK_HEADERS);
+  } else {
+    ensureHeaders_(sheet, GUESTBOOK_HEADERS);
   }
 
   return sheet;
 }
 
-function ensureUploadHeaders_(sheet) {
+function ensureHeaders_(sheet, expectedHeaders) {
   var lastColumn = Math.max(sheet.getLastColumn(), 1);
   var headers = sheet.getRange(1, 1, 1, lastColumn).getValues()[0];
 
-  if (headers.indexOf('file_ids') !== -1) {
-    return;
-  }
+  expectedHeaders.forEach(function (header) {
+    if (headers.indexOf(header) !== -1) {
+      return;
+    }
 
-  var fileLinksIndex = headers.indexOf('file_links') + 1;
-
-  if (fileLinksIndex > 0) {
-    sheet.insertColumnAfter(fileLinksIndex);
-    sheet.getRange(1, fileLinksIndex + 1).setValue('file_ids');
-    return;
-  }
-
-  sheet.getRange(1, lastColumn + 1).setValue('file_ids');
+    lastColumn += 1;
+    sheet.getRange(1, lastColumn).setValue(header);
+    headers.push(header);
+  });
 }
 
 function saveFile_(folder, file, allowedMimeTypes, maxFileSizeMb) {
