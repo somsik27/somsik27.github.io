@@ -101,6 +101,10 @@ export const invitation = {
       alt: '스튜디오 웨딩 콘셉트의 최윤식과 정솜이',
     },
     {
+      src: '/images/generated-wedding/wedding-figure-set.png',
+      alt: '최윤식과 정솜이 웨딩 피규어 세트',
+    },
+    {
       src: '/images/real-hero.jpg',
       alt: '해변에서 함께 미소 짓는 최윤식과 정솜이',
     },
