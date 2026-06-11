@@ -37,7 +37,7 @@ export const invitation = {
     shortDate: '2027.01.24',
   },
   hero: {
-    imageSrc: 'images/generated-wedding/studio-hero-bridal-face-v5.png',
+    imageSrc: '/images/generated-wedding/studio-hero-bridal-face-v5.png',
     imageAlt: '스튜디오 웨딩 콘셉트로 촬영한 최윤식과 정솜이',
   },
   invitationMessage: [
@@ -92,52 +92,52 @@ export const invitation = {
   film: {
     title: 'Wedding Film',
     videoUrl: '',
-    thumbnailSrc: 'images/generated-wedding/studio-hero-bridal-face-v5.png',
+    thumbnailSrc: '/images/generated-wedding/studio-hero-bridal-face-v5.png',
     thumbnailAlt: '최윤식과 정솜이의 영상 썸네일',
   },
   gallery: [
     {
-      src: 'images/generated-wedding/studio-hero-bridal-face-v5.png',
+      src: '/images/generated-wedding/studio-hero-bridal-face-v5.png',
       alt: '스튜디오 웨딩 콘셉트의 최윤식과 정솜이',
     },
     {
-      src: 'images/real-hero.jpg',
+      src: '/images/real-hero.jpg',
       alt: '해변에서 함께 미소 짓는 최윤식과 정솜이',
     },
     {
-      src: 'images/gallery/real-couple-close.jpg',
+      src: '/images/gallery/real-couple-close.jpg',
       alt: '길 위에서 함께 카메라를 바라보는 최윤식과 정솜이',
     },
     {
-      src: 'images/gallery/real-couple-cafe.jpg',
+      src: '/images/gallery/real-couple-cafe.jpg',
       alt: '가까이 앉아 카메라를 바라보는 최윤식과 정솜이',
     },
     {
-      src: 'images/gallery/real-bride-smile.jpg',
+      src: '/images/gallery/real-bride-smile.jpg',
       alt: '꽃이 핀 길에서 웃고 있는 정솜이',
     },
     {
-      src: 'images/gallery/real-groom-bench.jpg',
+      src: '/images/gallery/real-groom-bench.jpg',
       alt: '공원 벤치에 앉아 있는 최윤식',
     },
     {
-      src: 'images/gallery/real-bride-travel.jpg',
+      src: '/images/gallery/real-bride-travel.jpg',
       alt: '여행지에서 카메라를 바라보는 정솜이',
     },
     {
-      src: 'images/gallery/real-groom-close.jpg',
+      src: '/images/gallery/real-groom-close.jpg',
       alt: '헤드폰을 쓰고 미소 짓는 최윤식',
     },
     {
-      src: 'images/gallery/real-bride-night.jpg',
+      src: '/images/gallery/real-bride-night.jpg',
       alt: '분홍색 블라우스를 입고 서 있는 정솜이',
     },
     {
-      src: 'images/gallery/real-bride-toast.jpg',
+      src: '/images/gallery/real-bride-toast.jpg',
       alt: '잔을 들고 미소 짓는 정솜이',
     },
     {
-      src: 'images/gallery/real-couple-bus.jpg',
+      src: '/images/gallery/real-couple-bus.jpg',
       alt: '버스 안에서 함께 카메라를 바라보는 최윤식과 정솜이',
     },
   ] satisfies GalleryImage[],
