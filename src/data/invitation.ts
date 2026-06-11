@@ -25,6 +25,14 @@ export type UploadSettings = {
   successMessage: string;
 };
 
+export type KakaoShareSettings = {
+  pageUrl: string;
+  title: string;
+  description: string;
+  imageUrl: string;
+  locationButtonUrl: string;
+};
+
 export const invitation = {
   couple: {
     groom: '최윤식',
@@ -72,6 +80,14 @@ export const invitation = {
       },
     ] satisfies MapLink[],
   },
+  kakaoShare: {
+    pageUrl: 'https://somsik27.github.io/',
+    title: '윤식 & 솜이 결혼식에 초대합니다',
+    description: '2027년 1월 24일 (일) PM 3:40 더 컨벤션 송파문정 12층 그랜드볼룸.',
+    imageUrl:
+      'https://somsik27.github.io/images/generated-wedding/studio-hero-bridal-face-v5.png?v=20260611-v5',
+    locationButtonUrl: 'https://place.map.kakao.com/167068900',
+  } satisfies KakaoShareSettings,
   transportation: {
     parking: {
       title: '주차 안내',

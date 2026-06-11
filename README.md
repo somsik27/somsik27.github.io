@@ -18,6 +18,10 @@ npm run dev
 - 영상: YouTube 일부공개 URL 또는 embed URL을 `film.videoUrl`에 입력
 - 셔틀 안내: `transportation.shuttle`이 `null`이면 숨겨집니다.
 
+## 카카오톡 공유 버튼
+
+카카오톡 공유 카드에 `청첩장 보기`, `위치 보기` 버튼을 표시하려면 Kakao Developers에서 JavaScript 키를 발급하고 GitHub repository variable 또는 secret에 `VITE_KAKAO_JAVASCRIPT_KEY`로 저장합니다. 앱 설정의 Web 플랫폼 사이트 도메인에는 `https://somsik27.github.io`를 등록해야 합니다.
+
 ## GitHub Pages
 
 `.github/workflows/deploy-pages.yml`이 `main` 또는 `master` 브랜치 push 시 `dist`를 GitHub Pages로 배포합니다. 저장소의 Pages 설정에서 배포 소스를 GitHub Actions로 선택해 주세요.

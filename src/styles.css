@@ -140,6 +140,36 @@ img {
   font-weight: 600;
 }
 
+.kakao-share {
+  display: grid;
+  gap: 8px;
+  padding: 18px 24px;
+  background: #fff7d7;
+  text-align: center;
+}
+
+.kakao-share__button {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 8px;
+  padding: 0 16px;
+  background: #fee500;
+  color: #2b251c;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.kakao-share p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
 .section {
   padding: 68px 24px;
 }
