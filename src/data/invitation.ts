@@ -37,7 +37,7 @@ export const invitation = {
     shortDate: '2027.01.24',
   },
   hero: {
-    imageSrc: 'images/generated-wedding/studio-hero-bridal-face-v3.png',
+    imageSrc: 'images/generated-wedding/studio-hero-bridal-face-v4.png',
     imageAlt: '스튜디오 웨딩 콘셉트로 촬영한 최윤식과 정솜이',
   },
   invitationMessage: [
@@ -92,12 +92,12 @@ export const invitation = {
   film: {
     title: 'Wedding Film',
     videoUrl: '',
-    thumbnailSrc: 'images/generated-wedding/studio-hero-bridal-face-v3.png',
+    thumbnailSrc: 'images/generated-wedding/studio-hero-bridal-face-v4.png',
     thumbnailAlt: '최윤식과 정솜이의 영상 썸네일',
   },
   gallery: [
     {
-      src: 'images/generated-wedding/studio-hero-bridal-face-v3.png',
+      src: 'images/generated-wedding/studio-hero-bridal-face-v4.png',
       alt: '스튜디오 웨딩 콘셉트의 최윤식과 정솜이',
     },
     {
