@@ -7,7 +7,7 @@ type InvitationProps = {
 export function Invitation({ messages }: InvitationProps) {
   return (
     <section className="section invitation">
-      <SectionHeader eyebrow="Invitation" title="소중한 분들을 초대합니다" />
+      <SectionHeader eyebrow="Invitation" title="솜이야 생일축하해" />
       <div className="invitation__message">
         {messages.map((line) => (
           <p key={line}>{line}</p>
